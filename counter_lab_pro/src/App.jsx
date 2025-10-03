@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import Header from './components/Header.jsx'
 import { useState } from "react";
@@ -9,11 +8,10 @@ import "./App.css";
 
 function App() {
   return (
+    <>
     <div>
       <Header/>
     </div>
-  )
-    <>
       <AddTaskForm onAdd={handleAdd} />
       <FilterBar filter={filter} onChange={setFilter} />
       <TaskList
@@ -23,7 +21,7 @@ function App() {
         filter={filter}
       />
     </>
-  );
+  )
 }
 
 export default App;
