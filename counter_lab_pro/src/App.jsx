@@ -1,13 +1,10 @@
 // src/App.jsx
 import { useEffect, useState } from "react";
 import Header from "./components/Header.jsx";
+import ListCard from "./components/ListCard.jsx"
 import AddTaskForm from "./components/AddTaskForm.jsx";
-import FilterBar from "./components/FilterBar.jsx";
-import TaskList from "./components/TaskList.jsx";
+import ListDashboard from "./components/ListDashboard.jsx";
 
-const STORAGE_KEY = "campusTasks:v1";
-
-/* ---------- Robust localStorage hook ---------- */
 function useLocalStorage(key, initialValue) {
   const [value, setValue] = useState(() => {
     try {
@@ -32,51 +29,55 @@ function useLocalStorage(key, initialValue) {
 
   return [value, setValue];
 }
-/* ---------------------------------------------- */
 
-function nextId(tasks) {
-  return tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
-}
+  // const handleUpdate = (id, action) => {
+  //   setgroups(
+  //     groups.map(counter => {
+  //       if (counter.id === id) {
+  //         switch (action) {
+  //           case "inc": return { ...counter, count: counter.count + 1 };
+  //           case "dec": return { ...counter, count: counter.count - 1 };
+  //           case "reset": return { ...counter, count: 0 };
+  //           default: return counter;
+  //         }
+  //       }
+  //       return counter;
+  //     })
+  //   );
+  // };
+
+  // const handleDelete = (id) => {
+  //   setgroups(counters.filter(counter => counter.id !== id));
+  // };
 
 export default function App() {
-  const [tasks, setTasks] = useLocalStorage(STORAGE_KEY, () => [
-    { id: 1, text: "Buy textbook", done: false },
-    { id: 2, text: "Email advisor", done: true },
+const STORAGE_KEY = "all-groups"; 
+const [groups, setGroups] = useLocalStorage(STORAGE_KEY, []);
+
+const [total, setTotal] = useState(0);
+
+useEffect(() => {
+  setTotal(groups.reduce((sum, t) => sum +(Number(t.count)|| 0), 0));
+}, [groups]);
+
+  const handleAdd = (name) => {
+  const newGroups = {
+    id: Date.now(), 
+    name,
+    count: 0,
+  };
+  setgroups(prev => [...prev, newGroups
+
   ]);
+};
 
-  const [filter, setFilter] = useState("all"); // 'all' | 'active' | 'completed'
-
-  const handleAdd = (text) => {
-    const trimmed = text.trim();
-    if (!trimmed) return;
-    setTasks(prev => [...prev, { id: nextId(prev), text: trimmed, done: false }]);
-  };
-
-  const handleToggle = (id) => {
-    setTasks(prev => prev.map(t => (t.id === id ? { ...t, done: !t.done } : t)));
-  };
-
-  const handleDelete = (id) => {
-    setTasks(prev => prev.filter(t => t.id !== id));
-  };
-
-  const total = tasks.length;
-  const completed = tasks.filter(t => t.done).length;
 
   return (
     <div className="app-container">
       <Header />
-      <AddTaskForm onAdd={handleAdd} />
-      <p aria-live="polite" className="summary">
-        {completed} of {total} completed
-      </p>
-      <FilterBar filter={filter} onChange={setFilter} />
-      <TaskList
-        tasks={tasks}
-        filter={filter}
-        onToggle={handleToggle}
-        onDelete={handleDelete}
-      />
+      <ListDashboard />
+      {/* <AddTaskForm onAdd={handleAdd} /> */}
+      <ListCard />
     </div>
   );
 }
