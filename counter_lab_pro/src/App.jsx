@@ -66,7 +66,7 @@ useEffect(() => {
     name,
     count: 0,
   };
-  setgroups(prev => [...prev, newGroups
+  setGroups(prev => [...prev, newGroups
 
   ]);
 };
