@@ -38,13 +38,16 @@ export default function App() {
   }, [groups]);
 
   const handleAdd = (name) => {
-    const newGroup = {
-      id: Date.now(),
-      name,
-      count: 0,
-    };
-    setGroups(prev => [...prev, newGroup]);
+  const newGroups = {
+    id: Date.now(), 
+    name,
+    count: 0,
   };
+  setgroups(prev => [...prev, newGroups
+
+  ]);
+};
+
 
   return (
     <div className="app-container">
