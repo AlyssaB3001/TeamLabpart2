@@ -1,8 +1,7 @@
 // src/App.jsx
 import { useEffect, useState } from "react";
 import Header from "./components/Header.jsx";
-import ListCard from "./components/ListCard.jsx"
-import AddTaskForm from "./components/AddTaskForm.jsx";
+import ListCard from "./components/ListCard.jsx";
 import ListDashboard from "./components/ListDashboard.jsx";
 
 function useLocalStorage(key, initialValue) {
@@ -15,7 +14,6 @@ function useLocalStorage(key, initialValue) {
     } catch (err) {
       console.warn("Failed to read localStorage, using initialValue:", err);
     }
-    // If initialValue is a function, call it (lazy init)
     return typeof initialValue === "function" ? initialValue() : initialValue;
   });
 
@@ -30,53 +28,28 @@ function useLocalStorage(key, initialValue) {
   return [value, setValue];
 }
 
-  // const handleUpdate = (id, action) => {
-  //   setgroups(
-  //     groups.map(counter => {
-  //       if (counter.id === id) {
-  //         switch (action) {
-  //           case "inc": return { ...counter, count: counter.count + 1 };
-  //           case "dec": return { ...counter, count: counter.count - 1 };
-  //           case "reset": return { ...counter, count: 0 };
-  //           default: return counter;
-  //         }
-  //       }
-  //       return counter;
-  //     })
-  //   );
-  // };
-
-  // const handleDelete = (id) => {
-  //   setgroups(counters.filter(counter => counter.id !== id));
-  // };
-
 export default function App() {
-const STORAGE_KEY = "all-groups"; 
-const [groups, setGroups] = useLocalStorage(STORAGE_KEY, []);
+  const STORAGE_KEY = "all-groups"; 
+  const [groups, setGroups] = useLocalStorage(STORAGE_KEY, []);
+  const [total, setTotal] = useState(0);
 
-const [total, setTotal] = useState(0);
-
-useEffect(() => {
-  setTotal(groups.reduce((sum, t) => sum +(Number(t.count)|| 0), 0));
-}, [groups]);
+  useEffect(() => {
+    setTotal(groups.reduce((sum, t) => sum + (Number(t.count) || 0), 0));
+  }, [groups]);
 
   const handleAdd = (name) => {
-  const newGroups = {
-    id: Date.now(), 
-    name,
-    count: 0,
+    const newGroup = {
+      id: Date.now(),
+      name,
+      count: 0,
+    };
+    setGroups(prev => [...prev, newGroup]);
   };
-  setgroups(prev => [...prev, newGroups
-
-  ]);
-};
-
 
   return (
     <div className="app-container">
       <Header />
-      <ListDashboard />
-      {/* <AddTaskForm onAdd={handleAdd} /> */}
+      <ListDashboard onAdd={handleAdd} groups={groups} />
       <ListCard />
     </div>
   );

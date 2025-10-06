@@ -1,7 +1,6 @@
 import { useState } from "react";
-import ListCard from "./ListCard"
 
-export default function ListDashboard({ onAdd }) {
+export default function ListDashboard({ onAdd, groups = [] }) {
   const [name, setName] = useState("");
 
   const trimmed = name.trim();
@@ -15,20 +14,37 @@ export default function ListDashboard({ onAdd }) {
   };
 
   return (
-    <form onSubmit={submit} style={{ display: "flex", gap: 8, justifyContent: "center"  }}>
-      {/* <h1> {count.count(count)} </h1> */}
-      
-      <input
-        id="todo"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="e.g., ACM"
-        aria-label="New To-Do Group"
-        aria-invalid={!isValid && trimmed.length > 0}
-      />
-      <button type="submit" title="Enter at least 3 characters">
-        ADD NEW GROUP
-      </button>
-    </form>
+    <div style={{ textAlign: "center" }}>
+      <form
+        onSubmit={submit}
+        style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 16 }}
+      >
+        <input
+          id="todo"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="e.g., ACM"
+          aria-label="New To-Do Group"
+          aria-invalid={!isValid && trimmed.length > 0}
+        />
+        <button type="submit" disabled={!isValid} title="Enter at least 3 characters">
+          
+        </button>
+      </form>
+
+      <div>
+        {groups.length === 0 ? (
+          <p style={{ color: "#666" }}>No groups yet. Add one above!</p>
+        ) : (
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {groups.map((g) => (
+              <li key={g.id} style={{ marginBottom: 4 }}>
+                {g.name}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
   );
 }
