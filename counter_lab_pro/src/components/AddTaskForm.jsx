@@ -43,7 +43,7 @@ export default function AddTaskForm({ onAdd }) {
         //change button line
         />
         
-      <button type="submit" disabled={!isValid} title="Enter at least 3 characters">
+      <button type="submit" title="Enter at least 3 characters">
         ADD
       </button>
     </form>
