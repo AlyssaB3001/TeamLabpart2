@@ -1,21 +1,34 @@
 import { useState } from "react";
 import ListCard from "./ListCard"
-import AddListForm from "./AddListForm.jsx";
 
-export default function ListDashboard({lists, addList, deleteList, selectList}) {
+export default function ListDashboard({ onAdd }) {
+  const [name, setName] = useState("");
 
+  const trimmed = name.trim();
+  const isValid = trimmed.length >= 3;
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (!isValid) return;
+    onAdd?.(trimmed);
+    setName("");
+  };
 
   return (
     <form onSubmit={submit} style={{ display: "flex", gap: 8, justifyContent: "center"  }}>
       {/* <h1> {count.count(count)} </h1> */}
       
-      <div>
-      <h2>My Lists</h2>
-      <AddListForm addList={addList} />
-      {lists.map(l => (
-        <ListCard key={l.id} list={l} deleteList={deleteList} selectList={selectList} />
-      ))}
-    </div>
+      <input
+        id="todo"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="e.g., ACM"
+        aria-label="New To-Do Group"
+        aria-invalid={!isValid && trimmed.length > 0}
+      />
+      <button type="submit" title="Enter at least 3 characters">
+        ADD NEW GROUP
+      </button>
     </form>
   );
 }
