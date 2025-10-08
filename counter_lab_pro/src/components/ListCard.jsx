@@ -35,7 +35,7 @@ function nextId(tasks) {
   return tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
 }
 
-export default function ListCard({ group }) {
+export default function ListCard({ group, deleteList }) {
   // create a per-group storage key so each list has isolated tasks
   const storageKey = group && group.id ? `${STORAGE_KEY}:${group.id}` : STORAGE_KEY;
 
@@ -62,19 +62,27 @@ export default function ListCard({ group }) {
       const completed = tasks.filter(t => t.done).length;
 
     return (
-    <div className="Card" style={{border: "1px solid black", borderRadius: 8, padding: 16, margin: 16}}>
-      <h1>{group?.name || "New Group"}</h1>
-  <AddTaskForm onAdd={handleAdd} />
-  <FilterBar filter={filter} onChangeFilter={setFilter} />
-      <p aria-live="polite" className="summary">
-        {completed} of {total} completed
-      </p>
-      <TaskList
-        tasks={tasks}
-        filter={filter}
-        onToggle={handleToggle}
-        onDelete={handleDelete}
-      />
-    </div>
+      <div className="Card" style={{border: "1px solid black", borderRadius: 8, padding: 16, margin: 16, position: 'relative'}}>
+        <button
+          onClick={() => deleteList?.(group.id)}
+          style={{ position: 'absolute', top: 8, right: 8, background: '#ff4d4f', color: 'white', border: 'none', borderRadius: 4, padding: '0.3em 0.7em', cursor: 'pointer' }}
+          aria-label={`Delete list ${group?.name}`}
+          title="Delete this list"
+        >
+          🗑
+        </button>
+        <h1>{group?.name || "New Group"}</h1>
+        <AddTaskForm onAdd={handleAdd} />
+        <FilterBar filter={filter} onChangeFilter={setFilter} />
+        <p aria-live="polite" className="summary">
+          {completed} of {total} completed
+        </p>
+        <TaskList
+          tasks={tasks}
+          filter={filter}
+          onToggle={handleToggle}
+          onDelete={handleDelete}
+        />
+      </div>
     )
 }

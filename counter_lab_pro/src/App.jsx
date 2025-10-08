@@ -38,19 +38,27 @@ export default function App() {
   }, [groups]);
 
   const handleAdd = (name) => {
-  const newGroup = {
-    id: Date.now(), 
-    name,
-    count: 0,
+    const newGroup = {
+      id: Date.now(), 
+      name,
+      count: 0,
+    };
+    setGroups(prev => [...prev, newGroup]);
   };
-  setGroups(prev => [...prev, newGroup]);
-};
 
+  // Delete handler for list group
+  const handleDeleteList = (id) => {
+    setGroups(prev => prev.filter(g => g.id !== id));
+    // Optionally, remove related tasks from localStorage
+    try {
+      localStorage.removeItem(`campusTasks:v1:${id}`);
+    } catch (err) {}
+  };
 
   return (
     <div className="app-container">
       <Header />
-      <ListDashboard onAdd={handleAdd} groups={groups} />
+      <ListDashboard onAdd={handleAdd} groups={groups} deleteList={handleDeleteList} />
       {/* <ListCard /> */}
     </div>
   );
