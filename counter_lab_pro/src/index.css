@@ -29,12 +29,13 @@ button {
   padding: 0.5em 1em;
   font-size: 1em;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #035a8c;
+  color: #fff;
   cursor: pointer;
 }
 
 button:hover {
-  border-color: #646cff;
+  color: #030cb3;
 }
 
 input {
