@@ -36,12 +36,13 @@ function nextId(tasks) {
 }
 
 export default function ListCard({ group }) {
-      const [tasks, setTasks] = useLocalStorage(STORAGE_KEY, () => [
-        { id: 1, text: "Schedule Meeting", done: false },
-        { id: 2, text: "Nap", done: true },
-      ]);
+  // create a per-group storage key so each list has isolated tasks
+  const storageKey = group && group.id ? `${STORAGE_KEY}:${group.id}` : STORAGE_KEY;
+
+  // initialize with an empty array for new groups (no shared seed tasks)
+  const [tasks, setTasks] = useLocalStorage(storageKey, () => []);
     
-      const [filter, setFilter] = useState("all"); // 'all' | 'active' | 'completed'
+  const [filter, setFilter] = useState("all"); // 'all' | 'active' | 'completed'
     
       const handleAdd = (text) => {
         const trimmed = text.trim();
@@ -63,7 +64,8 @@ export default function ListCard({ group }) {
     return (
     <div className="Card" style={{border: "1px solid black", borderRadius: 8, padding: 16, margin: 16}}>
       <h1>{group?.name || "New Group"}</h1>
-      <AddTaskForm onAdd={handleAdd} />
+  <AddTaskForm onAdd={handleAdd} />
+  <FilterBar filter={filter} onChangeFilter={setFilter} />
       <p aria-live="polite" className="summary">
         {completed} of {total} completed
       </p>
