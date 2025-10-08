@@ -13,12 +13,13 @@ export default function AddListForm({ onAdd }) {
   return (
     <form onSubmit={submit} className="form-row" aria-label="Add new list">
       <input
+        size={30}
         className="input"
         placeholder="New list name (min 3 chars)"
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      <button className="btn" disabled={value.trim().length < 3} type="submit">
+      <button className="button" disabled={value.trim().length < 3} type="submit">
         Create
       </button>
     </form>
