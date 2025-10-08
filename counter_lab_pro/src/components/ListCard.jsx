@@ -35,7 +35,7 @@ function nextId(tasks) {
   return tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
 }
 
-export default function ListCard() {
+export default function ListCard({ group }) {
       const [tasks, setTasks] = useLocalStorage(STORAGE_KEY, () => [
         { id: 1, text: "Schedule Meeting", done: false },
         { id: 2, text: "Nap", done: true },
@@ -61,17 +61,18 @@ export default function ListCard() {
       const completed = tasks.filter(t => t.done).length;
 
     return (
-    <div className = "Card">
-        <AddTaskForm onAdd={handleAdd} />
-            <p aria-live="polite" className="summary">
-                {completed} of {total} completed
-            </p>
-            <TaskList
-                tasks={tasks}
-                filter={filter}
-                onToggle={handleToggle}
-                onDelete={handleDelete}
-            />
+    <div className="Card" style={{border: "1px solid black", borderRadius: 8, padding: 16, margin: 16}}>
+      <h1>{group?.name || "New Group"}</h1>
+      <AddTaskForm onAdd={handleAdd} />
+      <p aria-live="polite" className="summary">
+        {completed} of {total} completed
+      </p>
+      <TaskList
+        tasks={tasks}
+        filter={filter}
+        onToggle={handleToggle}
+        onDelete={handleDelete}
+      />
     </div>
     )
 }

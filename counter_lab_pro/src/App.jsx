@@ -51,7 +51,7 @@ export default function App() {
     <div className="app-container">
       <Header />
       <ListDashboard onAdd={handleAdd} groups={groups} />
-      <ListCard />
+      {/* <ListCard /> */}
     </div>
   );
 }

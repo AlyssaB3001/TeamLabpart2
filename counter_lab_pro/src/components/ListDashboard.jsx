@@ -12,8 +12,8 @@ export default function ListDashboard({groups, onAdd, deleteList, selectList}) {
       <div>
       <h2>My Lists</h2>
       <AddListForm onAdd={onAdd} />
-      {groups.map(l => (
-        <ListCard key={l.id} groups={groups} deleteList={deleteList} selectList={selectList} />
+      {groups.map(group => (
+        <ListCard key={group.id} group={group} deleteList={deleteList} selectList={selectList} />
       ))}
       </div>
     </div>
