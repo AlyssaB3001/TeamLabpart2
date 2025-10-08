@@ -77,13 +77,6 @@ li {
   border-radius: 4px;
 }
 
-.Grid {
-  display: 'grid';
-  gridTemplateColumns: 'repeat(3, 1fr)';
-  gap: '16px';
-  marginTop: '1.5rem';
-        }
-
 .summary {
   margin-top: 1rem;
   font-style: italic;
@@ -94,6 +87,7 @@ li {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr)); /* grid-cols-1 */
   gap: 1.5rem; /* gap-6 → 24px */
+  
 }
 
 @media (min-width: 640px) { /* sm: breakpoint */
